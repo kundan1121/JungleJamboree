@@ -22,7 +22,11 @@ public class TaipanController : MonoBehaviour
         {
             Debug.LogError("Animator component not found!");
         }
+    }
 
+    void Update()
+    {
+        target = null;
         // Find the humanoid character within the target layer
         Collider[] colliders = Physics.OverlapSphere(transform.position, 10f, targetLayerMask); // Increase the radius for testing
         foreach (Collider collider in colliders)
@@ -34,15 +38,6 @@ public class TaipanController : MonoBehaviour
             }
         }
 
-        // Ensure the player object is found
-        if (target == null)
-        {
-            Debug.LogError("Humanoid character not found!");
-        }
-    }
-
-    void Update()
-    {
         if (target == null) return;
 
         // Calculate the distance between the snake and the player
