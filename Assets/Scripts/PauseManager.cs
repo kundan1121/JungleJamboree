@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
-    private bool paused = false;
+    public static bool paused = false;
     PauseAction action;
 
 
