@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
@@ -11,14 +12,19 @@ public class MyCharacterController : MonoBehaviour
     public LayerMask groundMask; // A layer mask to determine what is considered ground for the character
     public FollowCharacterCamera cameraScript; // Reference to the FollowCharacterCamera script
 
+
+    public AudioSource audioSource;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         cameraScript = FindObjectOfType<FollowCharacterCamera>(); // Automatically find and assign the FollowCharacterCamera script
         if (cameraScript == null)
         {
             Debug.LogError("FollowCharacterCamera script not found in the scene!");
         }
+
     }
 
     void Update()
@@ -26,9 +32,13 @@ public class MyCharacterController : MonoBehaviour
         // Get input for movement
         float translation = Input.GetAxis("Vertical") * (Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed);
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
-
         // Move the character
-        Move(translation, rotation);
+        if(translation != 0 || rotation != 0) {
+            Move(translation, rotation);
+        } else  {
+            audioSource.Stop();
+        }
+        
 
         // Check if the player is holding both Left Shift and W keys to run
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
@@ -55,6 +65,11 @@ public class MyCharacterController : MonoBehaviour
 
     void Move(float translation, float rotation)
     {
+        audioSource.pitch = translation == 6 ? 1.5f : translation / 2;
+        if(!audioSource.isPlaying) {
+            audioSource.Play();
+        }
+        
         // Translate forward/backward
         translation *= Time.deltaTime;
         transform.Translate(0, 0, translation);
