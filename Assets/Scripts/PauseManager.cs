@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PauseManager : MonoBehaviour
 {
     public static bool paused = false;
+    public GameObject menu;
     PauseAction action;
 
 
@@ -46,11 +47,13 @@ public class PauseManager : MonoBehaviour
         AudioListener.pause = true;
         Time.timeScale = 0;
         paused = true;
+        menu.SetActive(true);
     }
 
     public void ResumeGame(){
         AudioListener.pause = false;
         Time.timeScale = 1;
         paused = false; 
+        menu.SetActive(false);
     }
 }
