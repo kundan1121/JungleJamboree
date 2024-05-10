@@ -10,4 +10,15 @@ public class SceneLevelManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void LevelFour()
+    {
+        // SceneManager.LoadScene("LevelFour");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+    }
+
+    public void Tutorial()
+    {
+        SceneManager.LoadScene("Game");
+    }
 }
