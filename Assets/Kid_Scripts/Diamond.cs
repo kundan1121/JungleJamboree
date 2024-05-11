@@ -8,6 +8,7 @@ public class Diamond : MonoBehaviour
     private BoxCollider boxCollider;
     private MeshRenderer meshRenderer;
     private bool isCollected;
+    
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -16,6 +17,7 @@ public class Diamond : MonoBehaviour
     }
 
     void Update() {
+        
         if(isCollected && !audioSource.isPlaying) {
             gameObject.SetActive(false);
         }
