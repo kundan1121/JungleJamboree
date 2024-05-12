@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -15,5 +17,9 @@ public class PlayerInventory : MonoBehaviour
         NumberOfDiamonds++;
         // Invoke the event
         ui.UpdateDiamondText(this);
+
+        if (NumberOfDiamonds == 15){
+            SceneManager.LoadScene(4);
+        }
     }
 }

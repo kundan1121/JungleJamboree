@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
@@ -8,15 +10,17 @@ public class MyCharacterController : MonoBehaviour
     float rotationSpeed = 100.0f;
     Animator anim;
     bool isGrounded; // Check if the character is grounded
+    public bool isAlive;
     public Transform groundCheck; // A transform representing the position of the ground check
     public LayerMask groundMask; // A layer mask to determine what is considered ground for the character
     public FollowCharacterCamera cameraScript; // Reference to the FollowCharacterCamera script
-
+    public Transform gameoverui;
 
     public AudioSource audioSource;
 
     void Start()
     {
+        isAlive = true;
         audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         cameraScript = FindObjectOfType<FollowCharacterCamera>(); // Automatically find and assign the FollowCharacterCamera script
@@ -29,6 +33,9 @@ public class MyCharacterController : MonoBehaviour
 
     void Update()
     {
+        if (!isAlive){
+        return;
+        }
         // Get input for movement
         float translation = Input.GetAxis("Vertical") * (Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed);
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
@@ -100,5 +107,19 @@ public class MyCharacterController : MonoBehaviour
     {
         // Check if the character is grounded using a sphere cast
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundMask);
+    }
+
+    public void Killed(){
+        gameoverui.GameObject().SetActive(true);
+        Debug.Log("character is killed");
+        isAlive = false;
+        transform.position = new Vector3(-66.4f, 4.11f, 144.817f);
+        StartCoroutine(revive());
+    }
+
+    IEnumerator revive(){
+        yield return new WaitForSeconds(1);
+        isAlive = true;
+        gameoverui.GameObject().SetActive(false);
     }
 }
